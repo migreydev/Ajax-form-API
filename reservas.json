@@ -1,0 +1,84 @@
+{
+  "reservas": [
+    {
+      "fecha": "2024-03-15",
+      "nombre_solicitante": "Juan Pérez",
+      "email_solicitante": "juan@example.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Salón Principal",
+      "descripcion": "Reunión de equipo, esto es un ejemplo de reserva editada. ",
+      "estado": "Aprobada",
+      "id": "1"
+    },
+    {
+      "fecha": "2024-03-16",
+      "nombre_solicitante": "María Gómez",
+      "email_solicitante": "maria@example.com",
+      "telefono_contacto": "987654321",
+      "espacio_reservado": "Sala de Reuniones A",
+      "descripcion": "Presentación de proyecto",
+      "estado": "Rechazada",
+      "id": "2"
+    },
+    {
+      "id": "3",
+      "fecha": "2024-03-17",
+      "nombre_solicitante": "Ana Rodríguez",
+      "email_solicitante": "ana@example.com",
+      "telefono_contacto": "456123789",
+      "espacio_reservado": "Salón Principal",
+      "descripcion": "Evento de networking",
+      "estado": "Pendiente"
+    },
+    {
+      "fecha": "2024-04-25",
+      "nombre_solicitante": "Miguel Angel",
+      "email_solicitante": "miguela@gmail.com",
+      "telefono_contacto": "665543982",
+      "espacio_reservado": "Terraza",
+      "descripcion": "svdmodpmvsodvmdovmvmdpomsomvosmdvop editado",
+      "estado": "Aprobada",
+      "id": "3561"
+    },
+    {
+      "id": "ceef",
+      "fecha": "2024-04-25",
+      "nombre_solicitante": "Ivan",
+      "email_solicitante": "miguel@gmail.com",
+      "telefono_contacto": "444444444",
+      "espacio_reservado": "Sala de Reuniones A",
+      "descripcion": "fwefwefffwefwefwefefwffefwewfewfefewf",
+      "estado": "Pendiente"
+    },
+    {
+      "fecha": "2024-04-09",
+      "nombre_solicitante": "Ana Belen",
+      "email_solicitante": "anabelen@gmail.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Aula 101",
+      "descripcion": "fgwrgrgrggrgrgwrgwrgrgrgwrgrgrwgwrgsfqefqfe",
+      "estado": "Pendiente",
+      "id": "c1f9"
+    },
+    {
+      "id": "9038",
+      "fecha": "2024-04-05",
+      "nombre_solicitante": "Bruno",
+      "email_solicitante": "bruno@gmail.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Aula 101",
+      "descripcion": "fefefnopnqoifniefnoqh3yurhfanckasndiowhqwl",
+      "estado": "Pendiente"
+    },
+    {
+      "fecha": "2024-04-15",
+      "nombre_solicitante": "Juan Pérez",
+      "email_solicitante": "juan@proton.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Salón Principal",
+      "descripcion": "dqowmnpwndpwndiwndiwnqpdwnklq",
+      "estado": "Pendiente",
+      "id": "2258"
+    }
+  ]
+}
