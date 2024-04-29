@@ -60,122 +60,116 @@ if(id){
     estado.append(optionRechazada);
     nuevoDiv.append(estado);
 
-    //Funcion para obtener las reservas de la api 
-    async function getReservas(){
+    // Función para obtener la reserva por su ID
+async function getReservaPorId(id) {
+    try {
+        const respuesta = await fetch(`${urlApi}/${id}`);
+        if (!respuesta.ok) {
+            throw new Error('Error al obtener la reserva');
+        }
+        const reserva = await respuesta.json();
 
-        const respuesta = await fetch (urlApi);
+        // Actualizar los campos con la información de la reserva
+        fecha.value = reserva.fecha;
+        fecha.readOnly = true;
 
-        if(!respuesta.ok){
-            console.error('Error al obtener la respuesta')
+        nombre.value = reserva.nombre_solicitante;
+        nombre.readOnly = true;
+
+        email.value = reserva.email_solicitante;
+        email.readOnly = true;
+
+        telefono.value = reserva.telefono_contacto;
+        telefono.readOnly = true;
+
+        espacio.value = reserva.espacio_reservado;
+        espacio.disabled = true;
+
+        descripcion.value = reserva.descripcion;
+        estado.value = reserva.estado;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Llamar a la función 
+getReservaPorId(id);
+
+// Asociar evento de clic al botón de reserva
+botonReservar.addEventListener('click', async(e) => {
+    e.preventDefault();
+    isValidDescription = false;
+
+    // Validar el campo descripción
+    if (validateDescription(descripcion.value)) {
+        isValidDescription = true;
+
+        // Si la validación es verdadera, no se añade nigun mensaje
+        if (isValidDescription) {
+            const success = document.getElementById('smallDescripcion');
+            success.className = "";
+            success.innerText = "";
         }
 
-        const reservas = await respuesta.json();
-
-        reservas.forEach(reserva =>{
-
-            //Si el id que obtenemos de la url coincide con el id de la reserva en la api vamos asociando su valor con el
-            //campo de entrada del formulario
-            if(id === reserva.id){
-
-                //Añadimos el atributo readonly para que no pueda ser modificado
-                fecha.value = reserva.fecha;
-                fecha.readOnly = true;
-
-                nombre.value = reserva.nombre_solicitante;
-                nombre.readOnly = true;
-
-                email.value = reserva.email_solicitante;
-                email.readOnly=true;
-
-                telefono.value = reserva.telefono_contacto;
-                telefono.readOnly=true;
-
-                espacio.textContent = reserva.espacio_reservado;
-                descripcion.value = reserva.descripcion;
-                estado.value = reserva.estado;
-            }
-        })
+    } else {
+        // Si la validación del campo descripción es falsa, se muestra el mensaje de error
+        const error = document.getElementById('smallDescripcion');
+        error.className = 'text-danger';
+        error.innerText = "Error, el campo descripción debe tener mínimo 20 caracteres";
     }
 
-    //Llamos a la funcion
-    getReservas();
+    // Seleccionar el valor de la etiqueta option del espacio de reserva de la API
+    const valorEspacio = espacio.selectedOptions[0].textContent;
 
-    //Se le asocia un evento al boton de editar 
-    botonReservar.addEventListener('click', async(e) =>{
-        e.preventDefault();
-        isValidDescription = false;
+    // Si la validación es verdadera, se procede a editar
+    if (isValidDescription) {
+        const urlEditar = `${urlApi}/${id}`;
+        const respuesta = await fetch(urlEditar, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fecha: fecha.value,
+                nombre_solicitante: nombre.value,
+                email_solicitante: email.value,
+                telefono_contacto: telefono.value,
+                espacio_reservado: valorEspacio,
+                descripcion: descripcion.value,
+                estado: estado.value,
+            })
+        });
 
-        //Valida el campo descripcion para que cumpla con los requisitos previsto
-        if(validateDescription(descripcion.value)){
-            isValidDescription = true;
-    
-            //Si la validacion es verdadera no le añadimos nigun mensaje
-            if(isValidDescription){
-                const success = document.getElementById('smallDescripcion');
-                success.className = "";
-                success.innerText = "";
-            }
-    
-        }else {
-            //Si el campo descriocion la validacion es false entonces montramos el mensaje de error 
-            const error = document.getElementById('smallDescripcion');
-            error.className = 'text-danger';
-            error.innerText = "Error, el campo descripcion debe tener mínimo 20 caracteres";
+        if (!respuesta.ok) {
+            console.error('Error al editar la reserva');
+        } else {
+            window.location.href = 'list.html';
         }
-    
-        //Seleciona el valor de la etiqeuta option del espacio de reserva de la api
-        const valorEspacio = espacio.selectedOptions[0].textContent;
+    }
+});
 
-        //Si la validacion es true se procede a editar el obtjeto
-        if(isValidDescription){
-
-            const urlEditar = `${urlApi}/${id}`;
-            const respuesta = await fetch (urlEditar,{
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    fecha: fecha.value,
-                    nombre_solicitante: nombre.value,
-                    email_solicitante: email.value,
-                    telefono_contacto: telefono.value,
-                    espacio_reservado: valorEspacio,
-                    descripcion: descripcion.value,
-                    estado: estado.value,
-                })
-            });
-        
-            if(!respuesta.ok){
-                console.error('Error al editar la reserva');
-            }else {
-                window.location.href = 'list.html';
-            }
-        }
-    })
-//Si el id es false es decir no cuenta con un id valido entonces se procede a añadir una reserva
+//Si el id es false, es decir, no cuenta con un id valido, entonces se procede a añadir una reserva
 }else {
 
     botonReservar.addEventListener('click', async (e) => {
     
-        //Variables booleanas que almacenan el valor de la validez del formulario, es decir , de los respectivos campos
+        //Variables booleanas que almacenan la validez del formulario, es decir , de los respectivos campos
         // que conforma el formulario
         e.preventDefault();
         isValidDate = false;
+        isValidNombre = false;
         isValidEmail = false;
         isValidPhone = false;
         isValidDescription = false;
         
         //Se procede a validad cada campo
         if(validateDate(fecha.value)){
-            isValidDate = true;
-    
-            //Si es true no se muestra mensaje
-            if(isValidDate){
+            
                 const success = document.getElementById('smallFecha');
                 success.className = "";
                 success.innerText = "";
-            }
+                isValidDate = true;
     
             //Si es false se muestra el mensaje de error
         }else {
@@ -183,16 +177,28 @@ if(id){
             error.className = 'text-danger';
             error.innerText = "Error, la fecha no puede ser posterior al día actual";
         }
+
+        if(validateNombre(nombre.value)){
+
+                const success = document.getElementById('smallNombre');
+                success.className = "";
+                success.innerText = "";
+                isValidNombre = true;
+
+        }else {
+            const success = document.getElementById('smallNombre');
+            success.className = 'text-danger';
+            success.innerText = "Error, el nombre no debe de estar vacio";;
+        }
     
         //Valida el email
         if(validateEmail(email.value)){
-            isValidEmail = true;
-    
-            if(isValidEmail){
+
                 const success = document.getElementById('smallEmail');
                 success.className = "";
                 success.innerText = "";
-            }
+                isValidEmail = true;
+            
     
         }else {
             const error = document.getElementById('smallEmail');
@@ -202,29 +208,26 @@ if(id){
     
         //Valida el telefono
         if(validatePhone(telefono.value)){
+
+            const success = document.getElementById('smallTelefono');
+            success.className = "";
+            success.innerText = "";
             isValidPhone = true;
-    
-            if(isValidPhone){
-                const success = document.getElementById('smallTelefono');
-                success.className = "";
-                success.innerText = "";
-            }
+            
     
         }else {
             const error = document.getElementById('smallTelefono');
             error.className = 'text-danger';
-            error.innerText = "Error, el numero de telefono debe ser valido";
+            error.innerText = "Error, el numero de telefono debe ser valido, formado por 9 numeros";
         }
     
         //Valida la descripcion 
         if(validateDescription(descripcion.value)){
-            isValidDescription = true;
-    
-            if(isValidDescription){
+        
                 const success = document.getElementById('smallDescripcion');
                 success.className = "";
                 success.innerText = "";
-            }
+                isValidDescription = true;
     
         }else {
             const error = document.getElementById('smallDescripcion');
@@ -235,7 +238,7 @@ if(id){
         const valorEspacio = espacio.selectedOptions[0].textContent;
     
         //Si todas las validaciones son correctas se procede a añadir el objeto a la api
-        if( isValidDate && isValidEmail && isValidPhone && isValidDescription){
+        if( isValidDate && isValidNombre && isValidEmail && isValidPhone && isValidDescription){
     
             const respuesta = await fetch (urlApi,{
                 method: 'POST',
@@ -263,15 +266,26 @@ if(id){
     })
 }
 
-//Funciones para validar cada campo del formulario 
+//Funciones para validar cada campo del formulario
+
 //Valida el campo fecha
 function validateDate(date){
     const fechaActual = new Date(); //fecha actual
     const fechaSeleccionada = new Date(date); //fecha seleccionada
     isValid = false;
 
-    //Si la fecha seleccionada es inferior o igual es correcta
-    if(fechaSeleccionada <= fechaActual ) {
+    //Si la fecha seleccionada es superior o igual es correcta
+    if(fechaSeleccionada >= fechaActual ) {
+        isValid = true;
+    }
+    return isValid;
+}
+
+//Funcion para validar nombre
+function validateNombre(nombre){
+    let isValid = false;
+
+    if(nombre.trim() !== ""){
         isValid = true;
     }
     return isValid;
@@ -305,32 +319,34 @@ function validatePhone(phone){
     return isValid;
 }
 
-//Funcion para obtener los espacios en el campo select
+//Función para obtener los espacios en el campo select
 async function getEspacios() {
+    try {
+        const respuesta = await fetch(urlEspacios);
 
-    const respuesta = await fetch(urlEspacios);
+        if (!respuesta.ok) {
+            console.error('Error al obtener una respuesta');
+            return;
+        }
 
-    if (!respuesta.ok) {
-        console.error('Error al obtener una respuesta');
-        return;
+        const xml = await respuesta.text();
+        const responseXml = new DOMParser().parseFromString(xml, 'text/xml')
+
+        const espacios = responseXml.querySelectorAll('espacio');
+
+        espacios.forEach(data =>{
+            const nombre = data.querySelector('nombre').textContent;
+            const id = data.querySelector('id').textContent;
+
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = nombre;
+            espacio.append(option);
+        });
+    } catch (error) {
+        console.error(error);
     }
-
-    const xml = await respuesta.text();
-    const responseXml = new DOMParser().parseFromString(xml, 'text/xml')
-
-    const espacios = responseXml.querySelectorAll('espacio');
-
-    espacios.forEach(data =>{
-        const nombre = data.querySelector('nombre').textContent;
-        const id = data.querySelector('id').textContent;
-
-        const option = document.createElement('option');
-        option.value = id;
-        option.textContent = nombre;
-        espacio.append(option);
-    })
-    
-};
+}
 
 getEspacios();
 

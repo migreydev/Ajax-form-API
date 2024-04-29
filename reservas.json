@@ -75,10 +75,30 @@
       "nombre_solicitante": "Juan Pérez",
       "email_solicitante": "juan@proton.com",
       "telefono_contacto": "123456789",
-      "espacio_reservado": "Salón Principal",
-      "descripcion": "dqowmnpwndpwndiwndiwnqpdwnklq",
-      "estado": "Pendiente",
+      "espacio_reservado": "Sala de Reuniones A",
+      "descripcion": "dqowmnpwndpwndiwndiwnqpdwnklq editado ",
+      "estado": "Rechazada",
       "id": "2258"
+    },
+    {
+      "fecha": "2024-04-30",
+      "nombre_solicitante": "prueba ejemplo",
+      "email_solicitante": "prueba@proton.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Sala de Reuniones A",
+      "descripcion": "snckskxniwedhieqhfinskamksamkndheoiqhfqklfdns editado por segunda vez",
+      "estado": "Pendiente",
+      "id": "2c07"
+    },
+    {
+      "fecha": "2024-05-09",
+      "nombre_solicitante": "Bruno salchicha",
+      "email_solicitante": "bruno@gmail.com",
+      "telefono_contacto": "123456789",
+      "espacio_reservado": "Sala de Reuniones A",
+      "descripcion": "ngkngkfnsnvdckdscnsnfuwefnjncsjkcjifefo editado",
+      "estado": "Aprobada",
+      "id": "7b1f"
     }
   ]
 }

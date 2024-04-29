@@ -22,18 +22,22 @@ async function getListado(){
         const saltoEspacio = document.createElement('br');
         ul.append(saltoEspacio);
 
-        //Muestra el listado de elementos 
-        li.innerText  = `Id: ${element.id}, Fecha: ${element.fecha}, Espacio Reservado: ${element.espacio_reservado}, Nombre del solicitante: ${element.nombre_solicitante}`;
+        if(element.estado != "Rechazada"){
 
-        li.append(a);
-        ul.append(li);
+            //Muestra el listado de elementos 
+            li.innerText  = `Id: ${element.id}, Fecha: ${element.fecha}, Espacio Reservado: ${element.espacio_reservado}, Nombre del solicitante: ${element.nombre_solicitante}`;
+    
+            li.append(a);
+            ul.append(li);
+    
+            //La etiqueta a se le añadira un evento 
+            a.addEventListener('click', async() => {
+    
+                const id  = element.id;
+                a.href = `./index.html?id=${id}`;
+            })
+        }
 
-        //La etiqueta a se le añadira un evento 
-        a.addEventListener('click', async() => {
-
-            const id  = element.id;
-            a.href = `./index.html?id=${id}`;
-        })
 
         
     });
